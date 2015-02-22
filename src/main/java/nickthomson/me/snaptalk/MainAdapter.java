@@ -8,29 +8,41 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MainAdapter extends ArrayAdapter<ListItemData> {
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class MainAdapter extends ArrayAdapter<RecievedMessage> {
 
     private Context context;
     private int resource;
-    private ListItemData[] objects;
+    private ArrayList<RecievedMessage> objects;
 
-    public MainAdapter(Context context, int resource, ListItemData[] objects) {
+    public MainAdapter(Context context, int resource, RecievedMessage[] objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
-        this.objects = objects;
+        this.objects = new ArrayList<RecievedMessage>(Arrays.asList(objects));
+    }
+
+    @Override
+    public int getCount() {
+        return objects.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater =  ((Activity)context).getLayoutInflater();
         View row = inflater.inflate(resource, parent, false);
-        TextView title = (TextView) row.findViewById(R.id.title);
-        TextView number = (TextView) row.findViewById(R.id.number);
+        TextView from = (TextView) row.findViewById(R.id.from);
+        TextView messageContent = (TextView) row.findViewById(R.id.message_content);
 
-        title.setText((CharSequence) objects[position].myTitle);
-        number.setText((CharSequence)
-                Integer.toString(objects[position].myNum));
+        from.setText((CharSequence) objects.get(position).getSender());
+        messageContent.setText((CharSequence) objects.get(position).getPassedTime());
         return row;
+    }
+
+    public void removeItem(int index) {
+        objects.remove(index);
+        notifyDataSetChanged();
     }
 }

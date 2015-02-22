@@ -1,8 +1,26 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="SnapTalkBrand" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/GreenBar</item>
+
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/GreenBar</item>
+    </style>
+
+    <style name="GreenBar"
+        parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/backgroundGreen</item>
+        <item name="android:titleTextStyle">@style/DarkTitle</item>
+
+        <!-- Support library compatibility -->
+        <item name="background">@color/backgroundGreen</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="DarkTitle"
+        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/dark</item>
     </style>
 
 </resources>

@@ -6,14 +6,17 @@ import android.media.MediaPlayer;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -23,23 +26,30 @@ public class MainActivity extends ActionBarActivity {
 
     RecordingManager recordingManager;
 
-    ListItemData[] listData = new ListItemData[] {
-            new ListItemData("item1", 10),
-            new ListItemData("item2", 10),
-            new ListItemData("item66", 10),
-            new ListItemData("item6", 10),
-            new ListItemData("item1", 10),
-            new ListItemData("itembanana", 10)
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+
+        long currentTime = new Date().getTime();
+        RecievedMessage[] listData = new RecievedMessage[] {
+                new RecievedMessage(new Date(), "Billy"),
+                new RecievedMessage(new Date(currentTime - 1000 * 120), "Mom"),
+                new RecievedMessage(new Date(currentTime - 1000 * 3700), "Fraklin")
+        };
+
         mainAdapter = new MainAdapter(this, R.layout.list_row,
                 listData);
         mainList = (ListView) findViewById(R.id.listView);
         mainList.setAdapter(mainAdapter);
+        mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mainAdapter.removeItem(position);
+            }
+        });
 
         recordingManager = new RecordingManager();
     }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="backgroundGreen">#82DD9F</color>
+    <color name="backgroundBlue">#78CBD9</color>
+    <color name="highlightPink">#DC5798</color>
+    <color name="highlightPurple">#B566D8</color>
+    <color name="dark">#161616</color>
+</resources>
