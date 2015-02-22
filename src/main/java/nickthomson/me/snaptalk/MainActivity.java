@@ -23,7 +23,8 @@ public class MainActivity extends ActionBarActivity {
     ListView mainList;
 
     RecordingManager recordingManager;
-    String loginName = "Nick";
+    String loginName = "Chase";
+    DownloadFiles downloadFiles = new DownloadFiles();
 
 
     @Override
@@ -98,6 +99,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         recordingManager.toggleRecording(this);
+    }
+
+    public void userRefresh(View view) {
+        downloadFiles.execute(loginName);
     }
 
 }

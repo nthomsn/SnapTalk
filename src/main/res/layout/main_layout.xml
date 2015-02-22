@@ -28,6 +28,13 @@
             android:background="@drawable/voice"
             android:onClick="userRecording">
         </ImageButton>
+        <ImageButton
+            android:layout_width="47dp"
+            android:layout_height="55dp"
+            android:id="@+id/refreshButton"
+            android:background="@drawable/voice"
+            android:onClick="userRefresh">
+        </ImageButton>
     </LinearLayout>
 
     </LinearLayout>
