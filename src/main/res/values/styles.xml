@@ -15,12 +15,15 @@
 
         <!-- Support library compatibility -->
         <item name="background">@color/backgroundGreen</item>
+        <item name="titleTextStyle">@style/DarkTitle</item>
     </style>
 
     <!-- ActionBar title text -->
     <style name="DarkTitle"
         parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/dark</item>
+
+        <item name="android:color">@color/dark</item>
     </style>
 
 </resources>

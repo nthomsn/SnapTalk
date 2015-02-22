@@ -1,21 +1,19 @@
 package nickthomson.me.snaptalk;
 
-import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.Environment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -25,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
     ListView mainList;
 
     RecordingManager recordingManager;
-
+    String loginName = "Nick";
 
 
     @Override
@@ -36,8 +34,8 @@ public class MainActivity extends ActionBarActivity {
         long currentTime = new Date().getTime();
         RecievedMessage[] listData = new RecievedMessage[] {
                 new RecievedMessage(new Date(), "Billy"),
-                new RecievedMessage(new Date(currentTime - 1000 * 120), "Mom"),
-                new RecievedMessage(new Date(currentTime - 1000 * 3700), "Fraklin")
+                new RecievedMessage(new Date(currentTime - 1000 * 120), "Anna"),
+                new RecievedMessage(new Date(currentTime - 1000 * 3700), "Frank")
         };
 
         mainAdapter = new MainAdapter(this, R.layout.list_row,
@@ -47,35 +45,58 @@ public class MainActivity extends ActionBarActivity {
         mainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mainAdapter.removeItem(position);
+                if (!mainAdapter.isPlaying()) {
+                    new MessagePlayer(mainAdapter, position).playFile("blurp");
+                }
             }
         });
 
         recordingManager = new RecordingManager();
     }
 
-    /* Called when user wants to make a new Talk */
-    public void newTalk(View view) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        try {
-            mediaPlayer.setDataSource(getFileName());
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.start();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private String getFileName() {
-        String fileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        fileName += "/blurp.3gp";
-        return fileName;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.set_person:
+                setPerson();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /* Set our device's contact name */
+    private void setPerson() {
+        final EditText input = new EditText(this);
+        input.setWidth(100);
+        new AlertDialog.Builder(this).setTitle("Change your name")
+            .setView(input)
+            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    Editable value = input.getText();
+                    loginName = value.toString();
+                }
+            }).show();
     }
 
     /* Called when the user wants to start recording */
-    public void userRecording(View viw) {
+    public void userRecording(View view) {
+        ImageButton imageButton = (ImageButton) view;
+        if (recordingManager.isCurrentlyRecording()) {
+            imageButton.setBackgroundResource(R.drawable.voice);
+        } else {
+            imageButton.setBackgroundResource(R.drawable.voice_recording);
+        }
+
         recordingManager.toggleRecording(this);
     }
 

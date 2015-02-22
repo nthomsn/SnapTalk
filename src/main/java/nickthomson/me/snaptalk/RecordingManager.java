@@ -21,6 +21,10 @@ public class RecordingManager {
         }
     }
 
+    public boolean isCurrentlyRecording() {
+        return isRecording;
+    }
+
     private void startRecording() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);

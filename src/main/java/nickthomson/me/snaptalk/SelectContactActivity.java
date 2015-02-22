@@ -16,8 +16,9 @@ public class SelectContactActivity extends ActionBarActivity {
     Contact[] contacts = new Contact[] {
             new Contact("Nick"),
             new Contact("Chase"),
-            new Contact("Steve Jobs"),
-            new Contact("Lennin")
+            new Contact("Stalin"),
+            new Contact("Lennin"),
+            new Contact("Dog")
     };
 
     @Override

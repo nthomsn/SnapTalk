@@ -17,6 +17,8 @@ public class MainAdapter extends ArrayAdapter<RecievedMessage> {
     private int resource;
     private ArrayList<RecievedMessage> objects;
 
+    private boolean playing = false;
+
     public MainAdapter(Context context, int resource, RecievedMessage[] objects) {
         super(context, resource, objects);
         this.context = context;
@@ -37,12 +39,31 @@ public class MainAdapter extends ArrayAdapter<RecievedMessage> {
         TextView messageContent = (TextView) row.findViewById(R.id.message_content);
 
         from.setText((CharSequence) objects.get(position).getSender());
-        messageContent.setText((CharSequence) objects.get(position).getPassedTime());
+        String status = objects.get(position).getStatus();
+        if (status.equals("")) {
+            messageContent.setText((CharSequence) objects.get(position).getPassedTime());
+        } else {
+            messageContent.setText(status);
+        }
         return row;
+    }
+
+    public void setContent(int position, String value) {
+        objects.get(position).setStatus(value);
+        notifyDataSetChanged();
     }
 
     public void removeItem(int index) {
         objects.remove(index);
         notifyDataSetChanged();
+    }
+
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 }
